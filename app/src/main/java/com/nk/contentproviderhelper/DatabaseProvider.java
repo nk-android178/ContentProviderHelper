@@ -6,6 +6,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 public class DatabaseProvider extends ContentProvider {
@@ -16,6 +17,7 @@ public class DatabaseProvider extends ContentProvider {
     //添加整形常亮
     public static final int USER_DIR = 0;
     public static final int USER_ITEM = 1;
+
     //创建authority
     public static final String AUTHORITY = "com.nk.contentproviderhelper.databasetest.provider";
     //创建UriMatcher对象
@@ -39,7 +41,10 @@ public class DatabaseProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         //实现创建MyDBHelpter对象"userdbdemo.db" MyDBHelpter.path
-        myDBHelpter = new MyDBHelpter(getContext(),"userdbdemo.db" , null, 1);
+        //运行程序的时候会自动创建数据库，创建表
+        String DBname = Environment.getExternalStorageDirectory().getPath()+"/userdbdemo.db"; //数据库路径及名称
+        Log.d(TAG,"DBname="+DBname);
+        myDBHelpter = new MyDBHelpter(getContext(),DBname , null, 1);
         return true;
     }
 
